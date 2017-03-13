@@ -1,0 +1,19 @@
+{
+  "apps" :
+  [
+    {
+      "name"          : "url_shortener",
+      "script"        : "./index.js",
+      "watch"         : false,
+      "ignore_watch"  : [".git", "node_modules", "test-dumps", "tests"],
+      "env":
+      {
+        "NODE_ENV"    : "development"
+      },
+      "env_production":
+      {
+        "NODE_ENV"    : "production"
+      }
+    }
+  ]
+}
