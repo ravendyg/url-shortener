@@ -44,7 +44,7 @@ describe('hash conversion',
 );
 
 
-desribe('repository',
+describe('repository',
   function repositoryOperations() {
     it('reject bad url', function rejectBadUrl(done) {
       linkRepo.createRecord('www.dsfsdf#.com')

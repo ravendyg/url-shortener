@@ -10,5 +10,7 @@ function saveHandler(err, product, numAffected) {
 
 }
 
-function findLink()
+function findLink() {
+
+}
 
