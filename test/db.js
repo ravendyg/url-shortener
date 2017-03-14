@@ -52,14 +52,6 @@ describe('hash conversion',
 
 describe('repository',
   function repositoryOperations() {
-    it('reject bad url', function rejectBadUrl(done) {
-      linkRepo.createRecord('www.dsfsdf#.com')
-      .catch(function (reason) {
-        assert.equal(reason, 'bad url');
-        done();
-      });
-    });
-
     it('create record and return hash', function createRecord(done) {
       linkRepo.createRecord('https://maps.nskgortrans.info')
       .then(function (_hash) {
@@ -91,6 +83,17 @@ describe('repository',
       .then(function (url) {
         assert.equal(url, 'https://maps.nskgortrans.info');
         done();
+      });
+    });
+
+    it('perform basic url sanitization', function rejectBadUrl(done) {
+      linkRepo.createRecord('www.dsfsdf.com<script%20type="text/javascript">alert("xss");</script>')
+      .then(function (_hash) {
+        linkRepo.getRecord(_hash)
+        .then(function (url) {
+          assert.equal(url, 'http://www.dsfsdf.com&lt;script%20type="text/javascript"&gt;alert("xss");&lt;/script&gt;')
+          done();
+        })
       });
     });
   }

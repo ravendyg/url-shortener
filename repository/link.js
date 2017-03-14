@@ -10,17 +10,12 @@ module.exports = {
 
 
 function createRecord(url) {
-  return new Bluebird(function createRecordPromised(resolve, reject) {
-    url = url.replace(/\?.*/, '');
+  return new Bluebird(function createRecordPromised(resolve) {
     if (!/^http/.test(url)) {
       url = 'http://' + url;
     }
-    let temp = url.replace(/^https?\:\/\//, '');
-    if (/[^a-zA-Z0-9\_\-\.]/.test(temp)) {
-      reject('bad url');
-    } else {
-      resolve(db.createRecord(url));
-    }
+    url = url.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+    resolve(db.createRecord(url));
   })
   .then(hash.numberToHash);
 }
