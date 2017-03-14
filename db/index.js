@@ -9,7 +9,7 @@ module.exports.connectToDb = function connectToDb(_config, cb) {
   config = _config;
   initQueryStrings();
   handleDisconnect(cb);
-}
+};
 
 
 function handleDisconnect(cb) {
@@ -112,3 +112,19 @@ function initQueryStrings() {
       ' primary key(id)' +
     ' ) character set utf8;';
 }
+
+function resetTable(done) {
+  let dropTableQuery = 'DROP TABLE IF EXISTS ' + config.TABLE_NAME + ';';
+  let db = module.exports.db;
+  db.connection.query(
+    dropTableQuery,
+    [],
+    err => {
+      if (!err) {
+        ensureTableExists(db).
+        then(done);
+      }
+    }
+  );
+}
+module.exports.resetTable = resetTable;

@@ -13,7 +13,10 @@ const config = {
 
   URL_MAX_LENGTH: 300,
 
-  INFO: true
+  INFO: true,
+
+  BASE: 52,
+  HASH_LENGTH: 5
 };
 
 // don't run if config is malformed
