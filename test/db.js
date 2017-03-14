@@ -8,13 +8,14 @@ const expect = chai.expect;
 
 const config = require('../config');
 const hash = require('../services/hash');
-const linkRepo = require('../repository/link');
+let linkRepo;
 
 before(
   function before(done) {
     config.TABLE_NAME = 'links_test';
     let {connectToDb, resetTable} = require('../db');
     connectToDb(config, function setupDb() {
+      linkRepo = require('../repository/link');
       resetTable(done);
     });
   }
@@ -23,20 +24,25 @@ before(
 describe('hash conversion',
   function hashConversion() {
     it('calculate hash from number', function calculateHash() {
-      assert.equal(0, hash.digitToDecimal('a'));
-      assert.equal(51, hash.digitToDecimal('Z'));
-
       assert.equal('a', hash.calculateDigit(0));
       assert.equal('Z', hash.calculateDigit(51));
 
       assert.equal('aaaaa', hash.numberToHash(0));
+      assert.equal('aaaab', hash.numberToHash(1));
       assert.equal('aaaaz', hash.numberToHash(25));
       assert.equal('aAaaZ', hash.numberToHash(3655859));
+    });
+
+    it('calculate number from hash', function calculateHash() {
+      assert.equal(0, hash.digitToDecimal('a'));
+      assert.equal(51, hash.digitToDecimal('Z'));
 
       assert.equal(1, hash.hashToNumber('aaaab'));
       assert.equal(25, hash.hashToNumber('aaaaz'));
       assert.equal(3655859, hash.hashToNumber('aAaaZ'));
+    });
 
+    it('throw error with bad args', function calculateHash() {
       expect(hash.calculateDigit.bind(this, 54)).to.throw('argument out of range');
       expect(hash.calculateDigit.bind(this, -1)).to.throw('argument out of range');
     });
@@ -73,15 +79,15 @@ describe('repository',
     );
 
     it('return not found when given wrong hash', function getWrongRecord(done) {
-      linkRepo.get('aaaaD')
+      linkRepo.getRecord('aaaaD')
       .catch(function (reason) {
         assert.equal(reason, 'not found');
         done();
       });
     });
 
-    it('return urlwhen given correct hash', function getRecord(done) {
-      linkRepo.get('aaaab')
+    it('return url when given correct hash', function getRecord(done) {
+      linkRepo.getRecord('aaaab')
       .then(function (url) {
         assert.equal(url, 'https://maps.nskgortrans.info');
         done();

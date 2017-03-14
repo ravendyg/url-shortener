@@ -7,6 +7,7 @@ let config;
 
 module.exports.connectToDb = function connectToDb(_config, cb) {
   config = _config;
+  module.exports.dbConfig = config;
   initQueryStrings();
   handleDisconnect(cb);
 };

@@ -16,7 +16,7 @@ function numberToHash(id) {
   let counter = 0;
   let temp = id;
   let out = '';
-  while (id / Math.pow(config.BASE, counter) > 1) {
+  while (id / Math.pow(config.BASE, counter) >= 1) {
     temp = Math.floor(temp / config.BASE) * config.BASE;
     counter++;
   }
@@ -33,7 +33,6 @@ function numberToHash(id) {
   }
   return out;
 }
-numberToHash(3870853);
 
 /**
  * @param hash: string
