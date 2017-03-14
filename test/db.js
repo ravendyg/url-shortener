@@ -8,6 +8,7 @@ const expect = chai.expect;
 
 const config = require('../config');
 const hash = require('../services/hash');
+const linkRepo = require('../repository/link');
 
 before(
   function before(done) {
@@ -38,6 +39,53 @@ describe('hash conversion',
 
       expect(hash.calculateDigit.bind(this, 54)).to.throw('argument out of range');
       expect(hash.calculateDigit.bind(this, -1)).to.throw('argument out of range');
+    });
+  }
+);
+
+
+desribe('repository',
+  function repositoryOperations() {
+    it('reject bad url', function rejectBadUrl(done) {
+      linkRepo.createRecord('www.dsfsdf#.com')
+      .catch(function (reason) {
+        assert.equal(reason, 'bad url');
+        done();
+      });
+    });
+
+    it('create record and return hash', function createRecord(done) {
+      linkRepo.createRecord('https://maps.nskgortrans.info')
+      .then(function (_hash) {
+        assert.equal(_hash, 'aaaab');
+        done();
+      });
+    });
+
+    it('create record with the same url and return another hash',
+      function createRecord(done) {
+        linkRepo.createRecord('https://maps.nskgortrans.info')
+        .then(function (_hash) {
+          assert.equal(_hash, 'aaaac');
+          done();
+        });
+      }
+    );
+
+    it('return not found when given wrong hash', function getWrongRecord(done) {
+      linkRepo.get('aaaaD')
+      .catch(function (reason) {
+        assert.equal(reason, 'not found');
+        done();
+      });
+    });
+
+    it('return urlwhen given correct hash', function getRecord(done) {
+      linkRepo.get('aaaab')
+      .then(function (url) {
+        assert.equal(url, 'https://maps.nskgortrans.info');
+        done();
+      });
     });
   }
 );
