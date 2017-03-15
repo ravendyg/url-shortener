@@ -21,7 +21,7 @@ GRANT ALL ON <db name>.* TO '<user name>'@'localhost';
 
 Populate config.json (find example.config.json) - DB setup
 
-Also add property HOST - where the app has been deployed (by default it's localhost + PORT)
+Also add property HOST - where the app has been deployed (by default it's localhost + PORT). Could be passed from client side, but in case different domain is used.
 
 Instal dependencies
 ```
