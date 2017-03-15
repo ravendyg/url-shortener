@@ -2,7 +2,7 @@
   "name": "link",
   "version": "1.0.0",
   "description": "",
-  "main": "test/db.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "./node_modules/.bin/mocha"

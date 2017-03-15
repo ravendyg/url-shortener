@@ -5,16 +5,25 @@ const staticRoute = require('../routes/static');
 const utils = require('./utils');
 const Bluebird = require('bluebird');
 
+const headersParser = require('./headers-parser');
+const urlParser = require('./url-parser');
+const bodyParser = require('./body-parser');
+
 
 module.exports.start = function startServer(config) {
   const server = http.createServer(
     function requestListener(req, res) {
+
+      urlParser.parseUrl(req);
+      headersParser.parseHeaders(req);
+      bodyParser.parseJson(req);
+
       new Bluebird(resolve => {
         res._endHandler = {resolve};
 
-        if (/(\/|\/index.html?)/.test(req.url)) {
+        if (/(\/|\/index.html?)/.test(req.parsedUrl)) {
           staticRoute.handle(req, res);
-        } else if (/^\/static/.test(req.url)) {
+        } else if (/^\/static/.test(req.parsedUrl)) {
           staticRoute.handle(req, res);
         } else {
           resolve(404);

@@ -6,8 +6,8 @@ const utils = require('./utils');
 
 
 module.exports = {
-  serve(url, res, isGet) {
-    let targetFile = createPathToFileFromUrl(url);
+  serve(req, res, isGet) {
+    let targetFile = createPathToFileFromUrl(req.parsedUrl);
 
     let cb = isGet
       ? sendFile

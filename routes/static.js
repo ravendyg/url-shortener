@@ -2,16 +2,13 @@
 
 const router = require('./router');
 const staticHandler = require('../services/static');
-const utils = require('../services/utils');
 
 const methodHandlers = {
   GET(req, res) {
-    let { url } = utils.normalizeUrl(req.url);
-    staticHandler.serve(url, res, true);
+    staticHandler.serve(req, res, true);
   },
   HEAD(req, res) {
-    let { url } = utils.normalizeUrl(req.url);
-    staticHandler.serve(url, res, false);
+    staticHandler.serve(req, res, false);
   }
 };
 
