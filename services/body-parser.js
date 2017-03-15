@@ -3,20 +3,8 @@
 const Bluebird = require('bluebird');
 
 module.exports = {
-  setupParser,
   parseJson
 };
-
-let options = {};
-
-/**
- * @param _options: {
- *  contentLength: number,  // in bytes
- * }
- */
-function setupParser(_options) {
-  options = _options;
-}
 
 
 function parseJson(req) {

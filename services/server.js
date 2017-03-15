@@ -53,7 +53,7 @@ function handlePath(req, res, config) {
   return new Bluebird(resolve => {
     res._endHandler = {resolve};
 
-    if (/(\/$|\/index.html?)/.test(req.parsedUrl)) {
+    if (/(^\/$|\/index.html?)/.test(req.parsedUrl)) {
       staticRoute.handle(req, res, config);
     } else if (/^\/static/.test(req.parsedUrl)) {
       staticRoute.handle(req, res, config);

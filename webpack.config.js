@@ -24,9 +24,7 @@ module.exports = {
         options: {
           presets: ['es2015', 'react']
         },
-      },
-
-      {
+      }, {
         test: '\.html$',
         use: [
           'htmllint-loader',
