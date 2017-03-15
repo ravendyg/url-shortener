@@ -12,11 +12,11 @@ MySQL 5.7 (5.6 definitely should work, guess smth with lower version would also 
 
 Create the database and the user
 ```
-create database link_test;
+create database <db name>;
 
-create user 'link_test'@'localhost' identified by '<password goes here>';
+create user '<user name>'@'localhost' identified by '<password goes here>';
 
-GRANT ALL ON link_test.* TO 'link_test'@'localhost';
+GRANT ALL ON <db name>.* TO '<user name>'@'localhost';
 ```
 
 Populate config.json (find example.config.json) - DB setup
@@ -27,7 +27,16 @@ npm i
 ```
 
 
-### Run
+
+### Build client app
+```
+npm run build         // development
+
+npm run build:prod    // production
+```
+
+
+### Run server
 ```
 npm start
 ```
@@ -37,3 +46,14 @@ or (using pm2)
 ```
 pm2 start process.json
 ```
+
+
+### Tests
+Database should be already created; don't run server at the same time
+```
+npm test
+```
+
+
+### Deployed
+http://link.excur.info
