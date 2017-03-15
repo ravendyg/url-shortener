@@ -5,7 +5,7 @@ Test resource to create short URLs and redirect using them
 ### External dependencies
 Nodejs ^6.10.0
 
-MySQL 5.7 (5.6 definitely should work, guess smth with lower version would also do, but didn't test).
+MySQL 5.7 (5.6 definitely should work, guess smth with ф lower version would also do, but didn't test).
 
 
 ### Setup

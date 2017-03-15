@@ -42,6 +42,7 @@ function sendFile(targetFile, res) {
   let file = fs.createReadStream(targetFile);
   file.pipe(res);
   file.on('error', streamErrorHandler(file, res));
+  file.on('end', fileFinishHandler(res));
   file.on('finish', fileFinishHandler(res));
   res.on('error', streamErrorHandler(file, res));
 }

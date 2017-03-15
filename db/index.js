@@ -40,7 +40,7 @@ function handleDisconnect(cb) {
           .catch(err2 => {
             console.error('can\'t connect');
             throw err2;
-          })
+          });
         }
       }
     }
