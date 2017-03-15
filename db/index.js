@@ -114,18 +114,19 @@ function initQueryStrings() {
     ' ) character set utf8;';
 }
 
-function resetTable(done) {
-  let dropTableQuery = 'DROP TABLE IF EXISTS ' + config.TABLE_NAME + ';';
-  let db = module.exports.db;
-  db.connection.query(
-    dropTableQuery,
-    [],
-    err => {
-      if (!err) {
-        ensureTableExists(db).
-        then(done);
+function resetTable() {
+  return new Bluebird(function (resolve) {
+    let dropTableQuery = 'DROP TABLE IF EXISTS ' + config.TABLE_NAME + ';';
+    let db = module.exports.db;
+    db.connection.query(
+      dropTableQuery,
+      [],
+      err => {
+        if (!err) {
+          resolve(ensureTableExists(db));
+        }
       }
-    }
-  );
+    );
+  })
 }
 module.exports.resetTable = resetTable;

@@ -35,7 +35,7 @@ function getFileStat(targetFile, res, cb) {
 function endResponse(res, statusCode) {
   res.statusCode = statusCode;
   res.end();
-  res._endHandler.resolve(200);
+  res._endHandler.resolve(statusCode);
 }
 
 function sendFile(targetFile, res) {
