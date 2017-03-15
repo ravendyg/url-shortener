@@ -19,7 +19,7 @@ const config = {
   HASH_LENGTH: 5
 };
 
-config.HOST = 'http://localhost' + ':' + config.PORT;
+config.HOST = config.HOST || 'http://localhost' + ':' + config.PORT;
 
 // don't run if config is malformed
 const ovewriteConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json')));

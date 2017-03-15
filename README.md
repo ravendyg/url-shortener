@@ -21,6 +21,8 @@ GRANT ALL ON <db name>.* TO '<user name>'@'localhost';
 
 Populate config.json (find example.config.json) - DB setup
 
+Also add property HOST - where the app has been deployed (by default it's localhost + PORT)
+
 Instal dependencies
 ```
 npm i
@@ -57,3 +59,7 @@ npm test
 
 ### Deployed
 http://link.excur.info
+
+
+### Footnote
+I'm perfectly aware that webpack2 here is a huge overkill, but was just curious to try it.
