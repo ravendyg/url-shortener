@@ -21,6 +21,11 @@ function setupParser(_options) {
 
 function parseJson(req) {
   return new Bluebird(function parseJsonPromised(resolve, reject) {
+    if (['POST', 'PUT'].indexOf(req.method) === -1) {
+      resolve();
+      return;
+    }
+
     let len = +req.headers['content-length'];
     let body = '';
     if (!len && len !== 0) {

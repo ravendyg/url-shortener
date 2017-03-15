@@ -28,5 +28,11 @@ module.exports = {
     console.log(`${(new Date()).toLocaleString()} ${req.method} ${code} ${req.url}`);
   },
 
+  endResponse(res, statusCode, message) {
+    res.statusCode = statusCode;
+    res.end(message ? message : '');
+    res._endHandler.resolve(statusCode);
+  },
+
   rootDir
 };

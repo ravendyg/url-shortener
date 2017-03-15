@@ -59,7 +59,7 @@ function handlePath(req, res, config) {
       staticRoute.handle(req, res, config);
     } else if (/^\/api\/?$/.test(req.parsedUrl)) {
       api.handle(req, res, config);
-    } else if (/^\/api\/[a-zA-Z]*\/?$/.test(req.parsedUrl)) {
+    } else if (/^\/[a-zA-Z]*\/?$/.test(req.parsedUrl)) {
       redirect.handle(req, res);
     } else {
       resolve(404);

@@ -119,60 +119,59 @@ describe('http endpoints',
       });
     });
 
-    // it('redirect given valid hash', function createRecord(done) {
-    //   this.timeout(5000);
-    //   chai.request(config.HOST)
-    //   .get('/aaaac')
-    //   .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-    //   .end(function responseHandler(err, res) {
-    //     assert.isNull(err);
-    //     assert.equal(res.status, 301);
-    //     console.log(res);
-    //     assert.equal(res.body.url, 'config.HOST' + '/aaaac');
-    //     done();
-    //   });
-    // });
+    it('redirect given valid hash', function createRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .get('/aaaac')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .end(function responseHandler(err, res) {
+        assert.isNull(err);
+        assert.equal(res.status, 200);
+        assert.isTrue(/maps\.nskgortrans\.info/.test(res.text));
+        done();
+      });
+    });
 
-    // it('return 404 given wrong hash', function getWrongRecord(done) {
-    //   this.timeout(5000);
-    //   chai.request(config.HOST)
-    //   .get('/aaaaZ')
-    //   .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-    //   .end(function responseHandler(err, res) {
-    //     assert.isNull(err);
-    //     assert.equal(res.status, 404);
-    //     done();
-    //   });
-    // });
+    it('return 404 given wrong hash', function getWrongRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .get('/aaaaZ')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .end(function responseHandler(err, res) {
+        assert.isNotNull(err);
+        assert.equal(res.status, 404);
+        done();
+      });
+    });
 
-    // it('return 400 given no url', function createRecord(done) {
-    //   this.timeout(5000);
-    //   chai.request(config.HOST)
-    //   .post('/api')
-    //   .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-    //   .set('content-type', 'application/json; charset=utf-8')
-    //   .send({})
-    //   .end(function responseHandler(err, res) {
-    //     assert.isNull(err);
-    //     assert.equal(res.status, 400);
-    //     assert.equal(res.body, 'bad url');
-    //     done();
-    //   });
-    // });
+    it('return 400 given no url', function createRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .post('/api')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .set('content-type', 'application/json; charset=utf-8')
+      .send({})
+      .end(function responseHandler(err, res) {
+        assert.isNotNull(err);
+        assert.equal(res.status, 400);
+        assert.equal(res.text, 'bad url');
+        done();
+      });
+    });
 
-    // it('return 400 given some xss in the url', function createRecord(done) {
-    //   this.timeout(5000);
-    //   chai.request(config.HOST)
-    //   .post('/api')
-    //   .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-    //   .set('content-type', 'application/json; charset=utf-8')
-    //   .send({url: 'https://maps.nskgortrans.info<script>alert("hello")</scipt>'})
-    //   .end(function responseHandler(err, res) {
-    //     assert.isNull(err);
-    //     assert.equal(res.status, 400);
-    //     assert.equal(res.body, 'bad url');
-    //     done();
-    //   });
-    // });
+    it('return 400 given some xss in the url', function createRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .post('/api')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .set('content-type', 'application/json; charset=utf-8')
+      .send({url: 'https://maps.nskgortrans.info<script>alert("hello")</scipt>'})
+      .end(function responseHandler(err, res) {
+        assert.isNotNull(err);
+        assert.equal(res.status, 400);
+        assert.equal(res.text, 'bad url');
+        done();
+      });
+    });
   }
 );
