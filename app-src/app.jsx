@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-import {subscribeToUrl, sendUrl} from './logic';
+import {subscribeToUrl, sendUrl, copyToClipboard} from './logic';
 
 import { Spinner } from './components/spinner';
 
@@ -17,7 +17,7 @@ class App extends React.Component {
       disableCopy: true,
       disableInput: false,
       waiting: false,
-      error: null
+      message: null
     };
   }
 
@@ -44,7 +44,7 @@ class App extends React.Component {
       this.setState({
         waiting: false,
         disableInput: false,
-        error
+        message: error
       });
     } else {
       this.input.value = url;
@@ -57,7 +57,10 @@ class App extends React.Component {
   }
 
   copy() {
-    console.log('copy');
+    copyToClipboard(this.input.value);
+    this.setState({
+      message: 'Copied to clipboard'
+    });
   }
 
   _onChange(input)  {
@@ -65,8 +68,14 @@ class App extends React.Component {
       disableCopy: true,
       disableCreate: input.target.value.length === 0
         ? true : false,
-      error: null
+      message: null
     });
+  }
+
+  _onSubmit(event) {
+    if (event.keyCode === 13 && !this.state.disableCreate) {
+      this.sendUrl();
+    }
   }
 
   render() {
@@ -79,6 +88,7 @@ class App extends React.Component {
             placeholder="URL goes here"
             disabled={this.state.disableInput}
             onChange={this._onChange.bind(this)}
+            onKeyUp={this._onSubmit.bind(this)}
             ref={e => this.input = e}
           />
         </div>
@@ -95,7 +105,7 @@ class App extends React.Component {
           >Copy URL</button>
         </div>
         {this.state.waiting ? <Spinner /> : null}
-        {this.state.error ? <div className="error-msg">{this.state.error}</div> : null}
+        {this.state.message ? <div className="message-holder">{this.state.message}</div> : null}
       </div>
     );
   }

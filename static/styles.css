@@ -6,7 +6,7 @@ html, body {
 
 #app {
   max-width: 500px;
-  margin: 40% auto;
+  margin: 40vh auto;
 }
 
 .url-input {
@@ -29,7 +29,7 @@ html, body {
   max-height: 100px;
 }
 
-.error-msg {
+.message-holder {
   text-align: center;
   margin-top: 15px;
 }

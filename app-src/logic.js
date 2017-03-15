@@ -23,3 +23,15 @@ export function sendUrl(url) {
     }
   });
 }
+
+export function copyToClipboard(value) {
+  var oText = document.createElement('textarea');
+    oText.style.position = 'absolute';
+    oText.style.right = '-10000px';
+    oText.value = value;
+    document.body.parentElement.insertBefore(oText, document.body);
+    oText.focus();
+    oText.select();
+    document.execCommand('Copy');
+    oText.remove();
+}
