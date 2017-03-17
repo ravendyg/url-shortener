@@ -1,10 +1,10 @@
 'use strict';
 
-const config = require('./config').getConfig();
 const db = require('./db');
+require('./config').init({});
 
 const server = require('./services/server');
 
-db.connectToDb(config, function dbConnectSuccessHandler() {
-  server.start(config);
+db.connectToDb(function dbConnectSuccessHandler() {
+  server.start();
 });

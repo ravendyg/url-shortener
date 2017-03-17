@@ -1,6 +1,7 @@
 'use strict';
 
 const Bluebird = require('bluebird');
+const punycode = require('punycode');
 const db = require('../db/link');
 const hash = require('../services/hash');
 
@@ -14,12 +15,13 @@ function createRecord(url) {
     if (!url) {
       reject('bad url');
     } else {
-      if (!/^http/.test(url)) {
-        url = 'http://' + url;
-      }
       if (/(\<|\>)/.test(url)) {
         reject('bad url');
       } else {
+        let prefix = /^https/.test(url) ? 'https://' : 'http://';
+        url = url.replace(prefix, '');
+        url = punycode.toASCII(url);
+        url = prefix + url;
         resolve(db.createRecord(url));
       }
     }
