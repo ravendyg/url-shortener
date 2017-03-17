@@ -1,14 +1,15 @@
 'use strict';
 
 const Bluebird = require('bluebird');
-const { db, dbConfig } = require('./index');
+const db = require('./index').db;
+const config = require('../config').getConfig()
 
 module.exports = {
   createRecord, findRecord
 };
 
 const createRecordQuery =
-  ' INSERT INTO ' + dbConfig.TABLE_NAME +
+  ' INSERT INTO ' + config.TABLE_NAME +
     ' SET url = ?' +
     ';';
 function createRecord(url) {
@@ -30,7 +31,7 @@ function createRecord(url) {
 }
 
 const findRecordQuery =
-  ' SELECT url FROM '  + dbConfig.TABLE_NAME +
+  ' SELECT url FROM '  + config.TABLE_NAME +
     ' WHERE id = ?' +
     ';';
 function findRecord(id) {

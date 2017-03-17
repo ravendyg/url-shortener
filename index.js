@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('./config');
+const config = require('./config').getConfig();
 const db = require('./db');
 
 const server = require('./services/server');

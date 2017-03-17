@@ -3,18 +3,21 @@
 const mysql = require('mysql');
 const Bluebird = require('bluebird');
 
-let config;
+const config = require('../config').getConfig();
 
-module.exports.connectToDb = function connectToDb(_config, cb) {
-  config = _config;
-  module.exports.dbConfig = config;
+module.exports.connectToDb = function connectToDb(cb) {
   initQueryStrings();
   handleDisconnect(cb);
 };
 
+let connectAttempts = -1;
+let connectionProbeStarted = false;
+
 
 function handleDisconnect(cb) {
   const db = {};
+
+  connectAttempts++;
 
   db.connection = mysql.createConnection({
     host     : config.DB_HOST,
@@ -28,6 +31,9 @@ function handleDisconnect(cb) {
     err => {
       if (err) {
         console.error((new Date()).toLocaleString(), 'error connecting to db', err);
+        if (connectAttempts > 10) {
+          throw err;
+        }
         setTimeout(() => { handleDisconnect(); }, 200);
       } else {
         console.log((new Date()).toLocaleString(), 'CONNECTED TO DB');
@@ -35,6 +41,7 @@ function handleDisconnect(cb) {
           ensureTableExists(db)
           .then(() => {
             module.exports.db = db;
+            startConnectionProbe(db);
             cb();
           })
           .catch(err2 => {
@@ -57,6 +64,16 @@ function handleDisconnect(cb) {
       }
     }
   );
+}
+
+// every 3 hours make a request to db to keep the connection alive
+function startConnectionProbe(db) {
+  if (!connectionProbeStarted) {
+    setInterval(() => {
+      db.connection.query('SELECT * FROM links LIMIT 1;', []);
+    }, 1000 * 60 * 3);
+    connectionProbeStarted = true;
+  }
 }
 
 

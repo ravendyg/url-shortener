@@ -29,4 +29,29 @@ if (ovewriteConfig.MONGO_NAME || ovewriteConfig.MONGO_PASSWORD
 }
 Object.assign(config, ovewriteConfig);
 
-module.exports = config;
+
+let initialized = false;
+
+function init(update) {
+  if (initialized) {
+    return getConfig();
+  } else {
+    initialized = true;
+    try {
+      Object.assign(config, update);
+    } catch (err) {
+      // skip
+    } finally {
+      return getConfig();
+    }
+  }
+}
+
+function getConfig() {
+  return Object.assign({}, config);
+}
+
+
+module.exports = {
+  getConfig, init
+};

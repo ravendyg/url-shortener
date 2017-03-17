@@ -4,7 +4,9 @@ const http = require('http');
 const Bluebird = require('bluebird');
 const utils = require('./utils');
 
-module.exports.start = function startServer(config) {
+const config = require('../config').getConfig();
+
+module.exports.start = function startServer() {
 
   const urlParser = require('./url-parser');
   const bodyParser = require('./body-parser');
@@ -16,7 +18,7 @@ module.exports.start = function startServer(config) {
         urlParser.parseUrl(req);
 
         bodyParser.parseJson(req)
-        .then(() => handlePath(req, res, config))
+        .then(() => handlePath(req, res))
         .then(result => {
           if (result >= 400) {
             endResponse(res, result);
@@ -44,7 +46,7 @@ module.exports.start = function startServer(config) {
   })
 }
 
-function handlePath(req, res, config) {
+function handlePath(req, res) {
 
   const staticRoute = require('../routes/static');
   const api = require('../routes/api');
@@ -54,11 +56,11 @@ function handlePath(req, res, config) {
     res._endHandler = {resolve};
 
     if (/(^\/$|\/index.html?)/.test(req.parsedUrl)) {
-      staticRoute.handle(req, res, config);
+      staticRoute.handle(req, res);
     } else if (/^\/static/.test(req.parsedUrl)) {
-      staticRoute.handle(req, res, config);
+      staticRoute.handle(req, res);
     } else if (/^\/api\/?$/.test(req.parsedUrl)) {
-      api.handle(req, res, config);
+      api.handle(req, res);
     } else if (/^\/[a-zA-Z]*\/?$/.test(req.parsedUrl)) {
       redirect.handle(req, res);
     } else {

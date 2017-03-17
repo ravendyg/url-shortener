@@ -4,8 +4,10 @@ const router = require('./router');
 const utils = require('../services/utils');
 const link = require('../repository/link');
 
+const config = require('../config').getConfig();
+
 const methodHandlers = {
-  POST(req, res, config) {
+  POST(req, res) {
     if (!req.body.url) {
       utils.endResponse(res, 400, 'bad url');
     } else {

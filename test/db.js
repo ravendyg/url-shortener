@@ -8,19 +8,20 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-const config = require('../config');
+const configApi = require('../config');
+let config;
 const hash = require('../services/hash');
 let linkRepo;
 
 before(
   function before(done) {
-    config.TABLE_NAME = 'links_test';
+    config = configApi.init({TABLE_NAME: 'links_test'});
     let {connectToDb, resetTable} = require('../db');
-    connectToDb(config, function setupDb() {
+    connectToDb(function setupDb() {
       linkRepo = require('../repository/link');
       resetTable()
       .then(function () {
-        require('../services/server').start(config)
+        require('../services/server').start()
         .then(done)
       })
     });
