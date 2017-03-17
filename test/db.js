@@ -174,5 +174,33 @@ describe('http endpoints',
         done();
       });
     });
+
+    it('create record and return an url with a hash given russian website url', function createRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .post('/api')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .set('content-type', 'application/json; charset=utf-8')
+      .send({url: 'https://президент.рф'})
+      .end(function responseHandler(err, res) {
+        assert.isNull(err);
+        assert.equal(res.status, 200);
+        assert.equal(res.body.url, config.HOST + '/aaaae');
+        done();
+      });
+    });
+
+    it('redirect to a website with a russian url given valid hash', function createRecord(done) {
+      this.timeout(5000);
+      chai.request(config.HOST)
+      .get('/aaaae')
+      .set('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+      .end(function responseHandler(err, res) {
+        assert.isNull(err);
+        assert.equal(res.status, 200);
+        assert.isTrue(/Президент\sРоссии/.test(res.text));
+        done();
+      });
+    });
   }
 );
