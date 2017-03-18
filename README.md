@@ -6,7 +6,7 @@ Test resource to create short URLs and redirect using them.
 Somewhat barebone nodejs without beloved express framework. Cool attempt to reinvent it myself, alas miserably failed.
 
 #### Client
-Tryed some new hipster stuff:
+Tried some new hipster stuff:
 - webpack 2 - small decrease in bundle size (cool), production build out of the box without painful plugins setup (also cool) but makes me feel like I'm loosing control on it (not so cool).
 - preact - first made with traditional (what a time!, I call it traditional) react, got 162Kb. With preact it went down to 46Kb! Unfortunately couldn't make it work on it's own, had to use prect-compat. But so far it looks great anyway.
 
