@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "./node_modules/.bin/mocha",
     "build": "webpack --config webpack.config.js --watch",
-    "build:prod": "webpack -p"
+    "build:prod": "node ./tasks/build.js"
   },
   "author": "",
   "license": "ISC",

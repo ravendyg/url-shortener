@@ -2,4 +2,7 @@ node_modules
 
 /**/config.json
 
+/**/npm-debug.log
+
 /static/bundle.js
+/static/gzip/**
