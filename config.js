@@ -19,8 +19,6 @@ const config = {
   HASH_LENGTH: 5
 };
 
-config.HOST = config.HOST || 'http://localhost' + ':' + config.PORT;
-
 // don't run if config is malformed
 const ovewriteConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json')));
 if (ovewriteConfig.MONGO_NAME || ovewriteConfig.MONGO_PASSWORD
@@ -42,6 +40,7 @@ function init(update) {
     } catch (err) {
       // skip
     } finally {
+      postInit();
       return getConfig();
     }
   }
@@ -49,6 +48,10 @@ function init(update) {
 
 function getConfig() {
   return Object.assign({}, config);
+}
+
+function postInit() {
+  config.HOST = config.HOST || 'http://localhost' + ':' + config.PORT;
 }
 
 

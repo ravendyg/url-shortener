@@ -15,7 +15,10 @@ let linkRepo;
 
 before(
   function before(done) {
-    config = configApi.init({TABLE_NAME: 'links_test'});
+    config = configApi.init({
+      TABLE_NAME: 'links_test',
+      PORT: 3036
+    });
     let {connectToDb, resetTable} = require('../db');
     connectToDb(function setupDb() {
       linkRepo = require('../repository/link');

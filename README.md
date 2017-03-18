@@ -59,7 +59,8 @@ pm2 start process.json
 
 
 ### Tests
-Database should be already created; don't run server at the same time
+Database should be already created;
+Default port - 3036
 ```
 npm test
 ```
