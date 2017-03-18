@@ -24,6 +24,7 @@ function handleDisconnect(cb) {
     user     : config.DB_USER,
     password : config.DB_PAS,
     database : config.DB_NAME,
+    port     : config.DB_PORT || 3306,
     charset  : 'utf8mb4'
   });
 

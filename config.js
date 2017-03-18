@@ -21,10 +21,6 @@ const config = {
 
 // don't run if config is malformed
 const ovewriteConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json')));
-if (ovewriteConfig.MONGO_NAME || ovewriteConfig.MONGO_PASSWORD
-    && !(ovewriteConfig.MONGO_NAME && ovewriteConfig.MONGO_PASSWORD)) {
-  throw new Error('bad mongo credentials');
-}
 Object.assign(config, ovewriteConfig);
 
 

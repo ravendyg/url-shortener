@@ -36,6 +36,20 @@ Instal dependencies
 npm i
 ```
 
+#### Remote DB
+If you have a database on a remote server or just looking for some fun. Then replace 'localhost' (in db setup and config.json) with server ip or host name. Without http:// !. The latter would be resolved to ip. Overwrite DB_PORT in config (if you have it different from the default 3306 or use port forwarding).
+
+In my case (I've got a server behind a router) it looks like this
+```
+create user '<user name>'@'192.168.1.1' identified by '<password goes here>';
+GRANT ALL ON <db name>.* TO '<user name>'@'192.168.1.1';
+
+"DB_HOST": "excur.info" // have several domains pointing to the same ip
+"DB_PORT": <router db port>
+```
+And the router is set up to forward requests from <router db port> to 3306 on the server.
+
+Don't forget to remove default MySQL bind to 127.0.0.1 And REMEMBER that by doing this you would open your vulnerable database to the cruel world of the internet!
 
 
 ### Build client app
