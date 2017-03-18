@@ -8,12 +8,16 @@ const zlib = require('zlib');
 const gzip = zlib.createGzip();
 
 const staticDir = path.join(__dirname, '..', 'static');
-const zipDir = path.join(staticDir, 'gzip');
+const zipDir = path.join(__dirname, '..', 'gzip');
+const staticZipDir = path.join(zipDir, 'static');
 const bundle = path.join(staticDir, 'bundle.js');
-const bundleZip = path.join(zipDir, 'bundle.js.gz');
+const bundleZip = path.join(staticZipDir, 'bundle.js.gz');
 
 if (!fs.existsSync(zipDir)) {
   fs.mkdirSync(zipDir);
+}
+if (!fs.existsSync(staticZipDir)) {
+  fs.mkdirSync(staticZipDir);
 }
 
 exec('./node_modules/.bin/webpack -p', (err, stdout, stderr) => {

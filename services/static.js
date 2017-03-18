@@ -7,7 +7,8 @@ const utils = require('./utils');
 
 module.exports = {
   serve(req, res, isGet) {
-    let targetFile = createPathToFileFromUrl(req.parsedUrl);
+    let gzip = /gzip/.test(req.headers['accept-encoding']);
+    let {targetFile, targetZipFile} = createPathToFileFromUrl(req.parsedUrl, gzip);
 
     let cb = isGet
       ? sendFile
@@ -15,9 +16,21 @@ module.exports = {
         res.end();
         res._endHandler.resolve(200);
       };
-    fs.stat(targetFile, getFileStat(targetFile, res, cb));
+
+    if (targetZipFile) {
+      fs.exists(targetZipFile, exists => {
+        if (exists) {
+          targetFile = targetZipFile;
+          res.setHeader('content-encoding', 'gzip');
+        }
+        fs.stat(targetFile, getFileStat(targetFile, res, cb));
+      });
+    } else {
+      fs.stat(targetFile, getFileStat(targetFile, res, cb));
+    }
   }
 };
+
 
 function getFileStat(targetFile, res, cb) {
   return function fileStat(err, stat) {
@@ -48,11 +61,13 @@ function sendFile(targetFile, res) {
 }
 
 
-function createPathToFileFromUrl(url) {
+function createPathToFileFromUrl(url, gzip) {
   let pathChunks = url.split('/');
-  let targetFile = [utils.rootDir].concat(pathChunks)
+  let targetFile = [''].concat(pathChunks)
     .reduce((acc, e) => path.join(acc, e), '');
-  return targetFile;
+  let targetZipFile = gzip ? path.join(utils.rootDir, 'gzip', targetFile) + '.gz' : null;
+  targetFile = path.join(utils.rootDir, targetFile);
+  return {targetFile, targetZipFile};
 }
 
 function fileFinishHandler(res) {
