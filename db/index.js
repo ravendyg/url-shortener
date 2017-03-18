@@ -71,7 +71,7 @@ function startConnectionProbe(db) {
   if (!connectionProbeStarted) {
     setInterval(() => {
       db.connection.query('SELECT * FROM links LIMIT 1;', []);
-    }, 1000 * 60 * 3);
+    }, 1000 * 60 * 25);
     connectionProbeStarted = true;
   }
 }
