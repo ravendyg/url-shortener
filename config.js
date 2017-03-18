@@ -30,7 +30,7 @@ Object.assign(config, ovewriteConfig);
 
 let initialized = false;
 
-function init(update) {
+function init(update, mode) {
   if (initialized) {
     return getConfig();
   } else {
@@ -40,7 +40,7 @@ function init(update) {
     } catch (err) {
       // skip
     } finally {
-      postInit();
+      postInit(mode);
       return getConfig();
     }
   }
@@ -50,8 +50,12 @@ function getConfig() {
   return Object.assign({}, config);
 }
 
-function postInit() {
-  config.HOST = config.HOST || 'http://localhost' + ':' + config.PORT;
+function postInit(mode) {
+  if (mode !== 'test') {
+    config.HOST = config.HOST || 'http://localhost' + ':' + config.PORT;
+  } else {
+    config.HOST = 'http://localhost' + ':' + config.PORT;
+  }
 }
 
 
