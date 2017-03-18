@@ -1,6 +1,14 @@
 ## URL shortener
 
-Test resource to create short URLs and redirect using them
+Test resource to create short URLs and redirect using them.
+
+#### Server
+Somewhat barebone nodejs without beloved express framework. Cool attempt to reinvent it myself, alas miserably failed.
+
+#### Client
+Tryed some new hipster stuff:
+- webpack 2 - small decrease in bundle size (cool), production build out of the box without painful plugins setup (also cool) but makes me feel like I'm loosing control on it (not so cool).
+- preact - first made with traditional (what a time!, I call it traditional) react, got 162Kb. With preact it went down to 46Kb! Unfortunately couldn't make it work on it's own, had to use prect-compat. But so far it looks great anyway.
 
 ### External dependencies
 Nodejs ^6.10.0
@@ -59,7 +67,3 @@ npm test
 
 ### Deployed
 http://link.excur.info
-
-
-### Footnote
-I'm perfectly aware that webpack2 here is a huge overkill, but was just curious to try it.

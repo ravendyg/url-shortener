@@ -1,6 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-
 
 module.exports = {
   entry: './app-src/app',
@@ -42,6 +40,10 @@ module.exports = {
       'node_modules',
       path.resolve(__dirname, 'app-src')
     ],
+    alias: {
+      'react': 'preact-compat',
+			'react-dom': 'preact-compat'
+    },
 
     extensions: ['.js', '.jsx', '.css'],
   },
